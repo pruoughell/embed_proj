@@ -1,3 +1,5 @@
+
+
 #include "esp_camera.h"
 #include "camera_pins.h"
 #include "img_converters.h"
@@ -9,21 +11,21 @@
 #include "fr_forward.h"
 
 //WiFi名称
-#define WIFI_SSID "<>"
+#define WIFI_SSID "testWiFi"
 //WiFi密码
-#define WIFI_PASSWORD "<>"
+#define WIFI_PASSWORD "31415926"
 
 //网易的SMTP服务器
 #define SMTP_HOST "smtp.163.com"
 //端口号
 #define SMTP_PORT 465
 //发送的邮箱
-#define AUTHOR_EMAIL "<>"
+#define AUTHOR_EMAIL "puoughell@163.com"
 //授权码
-#define AUTHOR_PASSWORD "<>"
+#define AUTHOR_PASSWORD "KUBMWLOFJOGGAQSO"
 
 //接收的邮箱
-#define RECIPIENT_EMAIL "<>"
+#define RECIPIENT_EMAIL "2064617582@qq.com"
 
 Servo myservo;
 int cur_pos = 0;
@@ -216,8 +218,11 @@ void Update_Image(camera_fb_t * fb_data)
   att.descr.transfer_encoding = Content_Transfer_Encoding::enc_base64;
   message.addInlineImage(att);
 
-  if (!smtp.connect(&session))
+  if (!smtp.connect(&session)){
+    Serial.println("smtp会话连接失败\n");    
     return;
+  }
+    
 
   if (!MailClient.sendMail(&smtp, &message, true))
     Serial.println("Error sending Email, " + smtp.errorReason());
